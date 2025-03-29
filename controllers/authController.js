@@ -5,19 +5,27 @@ const model = require("../models/oauthModel");
 const oauth = new OAuth2Server({
   model,
   grants: ["password"],
-  accessTokenLifetime: 3600, // 1 hora
+  accessTokenLifetime: 3600,
 });
 
 exports.token = async (req, res) => {
-    console.log(req.body);  // 🔍 Ver qué datos está recibiendo
-    const request = new Request(req);
-    const response = new Response(res);
-  
-    oauth
+  console.log(req.body);
+  const request = new Request(req);
+  const response = new Response(res);
+
+  oauth
       .token(request, response)
-      .then((token) => res.json(token))
+      .then((token) => {
+          const responseData = {
+              id: token.user.id, 
+              username: token.user.username, 
+              accessToken: token.accessToken, 
+          };
+          res.json(responseData);
+      })
       .catch((err) => {
-        console.error(err); // Ver el error en la consola
-        res.status(err.code || 500).json(err);
+          console.error(err);
+          res.status(err.code || 500).json(err);
       });
-  };
+};
+

@@ -11,9 +11,12 @@ module.exports = async (req, res, next) => {
   oauth
     .authenticate(request, response)
     .then((token) => {
-      req.user = token.user;
+      console.log("✅ Usuario autenticado:", token.user); // 🚀 Agregar log
+      req.user = token.user; // Asegurarse de pasar el usuario con el rol
       next();
     })
-    .catch((err) => res.status(err.code || 401).json({ error: "No autorizado" }));
+    .catch((err) => {
+      console.error("❌ Error en autenticación:", err);
+      res.status(err.code || 401).json({ error: "No autorizado" });
+    });
 };
-
