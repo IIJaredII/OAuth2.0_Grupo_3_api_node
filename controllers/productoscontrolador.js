@@ -8,6 +8,10 @@ const crearProducto = async (req, res) => {
             return res.status(400).json({ mensaje: "Todos los campos son obligatorios" });
         }
 
+        console.log(nombre);
+        console.log(precio);
+        console.log(categoria);
+        console.log(imagen);
 
         const [results] = await connection.promise().query(
             "INSERT INTO productos (nombre, precio, categoria, imagenProducto) VALUES (?, ?, ?, ?)",
@@ -93,13 +97,15 @@ const actualizarProducto = async (req, res) => {
         const { id } = req.params;
         const { nombre, precio, categoria, imagen } = req.body;
 
-        if (producto.length === 0) {
-            return res.status(404).json({ mensaje: "Producto no encontrado" });
-        }
+        console.log(id);
+        console.log(nombre);
+        console.log(precio);
+        console.log(categoria);
+        console.log(imagen);
 
             await connection.promise().query(
                 "UPDATE productos SET nombre = ?, precio = ?, categoria = ?, imagenProducto = ? WHERE id = ?",
-                [nombre, precio, categoria, nuevaImagenNombre, id]
+                [nombre, precio, categoria, imagen, id]
             );
 
         res.json({ mensaje: "Producto actualizado exitosamente" });

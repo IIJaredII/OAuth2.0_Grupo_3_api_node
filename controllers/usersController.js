@@ -10,13 +10,12 @@ const registarUsuario = async (req, res) => {
 
 
         const [results] = await connection.promise().query(
-            "INSERT INTO users (username, password, rol) VALUES (?, ?, C)",
+            "INSERT INTO users (username, password, rol) VALUES (?, ?, 'C')",
             [mail,password]
         );
 
         res.status(201).json({
-            mensaje: "Cliente agregado correctamente",
-            id: results.insertId
+            mensaje: "Cliente agregado correctamente"+results.insertId
         });
     } catch (error) {
         console.error("Error al crear cliente:", error);
